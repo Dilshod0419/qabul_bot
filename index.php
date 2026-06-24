@@ -119,7 +119,7 @@ if ($message) {
                 sendMessage(OPERATOR_CHANNEL, $channel_message);
 
                 // Talabaning o'ziga tasdiq xabari
-                sendMessage($chat_id, "✅ Rahmat! Sizning murojaatingiz operatorlar kanaliga yo'llandi. Tez orada mutaxassislarimiz siz ko'rsatgan <b>+" . htmlspecialchars($student_phone) . "</b> raqami orqali aloqaga chiqishadi.");
+                sendMessage($chat_id, "✅ Rahmat! Sizning murojaatingiz operatorlar kanaliga yo'llandi. Tez orada mutaxassislarimiz siz ko'rsatgan <b>" . htmlspecialchars($student_phone) . "</b> raqami orqali aloqaga chiqishadi.");
             } else {
                 sendMessage($chat_id, "❌ Iltimos, qabul bo'yicha savolingizni batafsilroq yozib qoldiring.");
             }
@@ -131,6 +131,8 @@ if ($message) {
     }
 }
 
+http_response_code(200);
+echo "OK";
 
 function sendMessage($chat_id, $text, $reply_markup = null) {
     $data = [
@@ -156,7 +158,9 @@ function callTelegram($method, $data) {
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
+    
     $result = curl_exec($ch);
     curl_close($ch);
     return json_decode($result, true);
